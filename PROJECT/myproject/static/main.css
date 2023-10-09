@@ -1,0 +1,357 @@
+/*Sxediasmos tis vasikis mou baras */
+
+.header{
+    min-height : 100vh;
+    width: 100%;
+    background-image: url("/static/images/medication.jpg");
+    background-position: center;
+    background-size: cover;
+    position:relative;
+}
+
+
+
+
+.navBarImage{
+    height: 50px;
+    width: 180px;
+    margin-right: 5px;
+}
+
+
+/*Sxediasmos tou Xarti */
+#map{
+    height: 580px;
+    width: 80%;
+    margin: 140px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    border:5px solid rgb(5, 172, 238);
+    
+}
+
+
+/*Sxediasmos twn select plaisiwn kai twn koumpiwn */
+.form-select{
+    margin-left:450px;
+    width: 600px;
+    font-weight: bold;
+    
+    
+}
+
+
+
+
+.button{
+    margin-left: 650px;
+    background-color:black;
+    color: bisque;
+    padding: 5px 5px;
+    border-style: double;
+    border: 1px solid whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    
+}
+
+.clear{
+    margin-left: 10px;
+    padding: 5px 5px;
+    background-color:black;
+    color: bisque;
+    border-style: double;
+    border: 1px solid whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    
+    
+}
+
+
+
+
+/*Sxediasmos tou table mou gia tin deuteri selida */
+.table td{
+    font-size: 19px;
+    color:rgb(3, 24, 71);
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+}
+
+
+.columns{
+    font-size: 20px;
+    color:rgb(110, 30, 238);
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    
+}
+
+
+
+.table{
+    background-color:whitesmoke;
+    background-image: url("/static/images/med.png");
+    
+    background-position: center;
+    background-size:contain;
+    
+}
+
+.numeric{
+    color: dimgrey;
+    font-size: 18px;
+}
+
+/* Sxediasmos twn parathurwn me tis plirofories pou emfanizontai an clickarw panw stous markers ston xarti */
+
+.leaflet-popup{
+    opacity: 1; 
+    transform: translate3d(615px, 264px, 0px);
+    bottom: -7px;
+    left: -51px;
+}
+
+.leaflet-popup-content{
+    font-style: italic ;
+    font-size: 50px;
+    font-weight: bold;
+    color:black;
+    
+    
+}
+
+/* sxediasmos twn stoixeiwn tis arxikis selidas*/
+.homeImage{
+    margin: 100px;
+    margin-top: 1px;
+    width: 80%;
+    height: 450px;
+}
+
+
+
+.welcome{
+    color: sienna;
+    margin-top: 150px;
+    margin-left: 300px;
+    margin-right: 700px;
+    font-size: 70px;
+    font-style: italic;
+    font-weight: bold;
+    font-weight: 999;
+    text-shadow: 4px 4px burlywood;
+} 
+
+.logiaHomepage{
+    color: burlywood;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 250px;
+    font-size: 38px;
+    font-style: italic;
+    font-weight: bold;
+    text-shadow: 2px 2px grey;
+
+
+}
+
+.leaflet-interactive{
+    font-style: italic ;
+    font-size: 50px;
+    color:darkgreen;
+    stroke: red;
+    stroke-width: 2;
+}
+
+
+.ratingButton{
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 3% 5% 3% 5%;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
+#wrapper2{
+    margin-top: 2%;
+    margin-left:33%;
+    background: #e7e7e7;
+    border-radius: 10px;
+    width: 30%;
+    height: 60%;
+    position: relative;
+    display: none;
+}
+
+.wrapper2 h2{
+    margin-left: 2%;
+    color: black;
+    font-weight: bold;
+    text-shadow:grey;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.close{
+    margin-top: 2%;
+    margin-left: 85%;
+    padding: 5px 5px;
+    background-color:black;
+    color: bisque;
+    border-style: double;
+    border: 1px solid whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+
+
+.container .stars2 a{
+    opacity: 40%;
+    font-size: 25px;
+    margin-left: 3%;
+    cursor: pointer;
+}
+
+#counting{
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 3%;
+}
+
+#label{
+    font-size: 20px;
+    font-weight: bold;
+    width: 20px;
+    margin-left: 3%;
+}
+
+#recent{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 3%;
+    margin-left: 3%;
+}
+
+#recentComment{
+    width:80%;
+    padding: 16px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 1%;
+    margin-bottom: 6%;
+    margin-left: 3%;
+    resize: vertical;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+
+}
+
+#wrapper{
+    margin-top: 2%;
+    margin-left:28%;
+    background: #e7e7e7;
+    border-radius: 10px;
+    width: 40%;
+    height: 60%;
+    position: relative;
+    display: none;
+}
+
+
+
+.wrapper h2{
+    margin-left: 2%;
+    color: black;
+    font-weight: bold;
+    text-shadow:grey;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.wrapper h5{
+    margin-left: 6%;
+    margin-top: 3%;
+    color: black;
+    text-shadow:grey;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+
+.wrapper content{
+    max-height: 20%;
+    overflow: auto;
+}
+
+.container{
+    border-radius: 5px;
+    background-color: #e7e7e7;
+    padding: 20px 0;
+}
+
+
+.ratingForm2 label{
+    margin-top: 5%;
+    margin-left: 3%;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+textarea{
+    width: 100%;
+    padding: 24px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 4%;
+    margin-bottom: 15px;
+    resize: vertical;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.save{
+    margin-left: 62%;
+    margin-top: 4%;
+    background-color: black;
+    color: azure;
+    padding: 15px 50px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+
+.container .stars a{
+    opacity: 50%;
+    font-size: 30px;
+    margin-left: 4%;
+    cursor: pointer;
+}
+
+
+
+.stars:hover a{
+    opacity: 100%;
+}
+
+.stars a:hover{
+    opacity: 100%;
+}
+
+.stars a:hover ~ a{
+    opacity: 50%;
+}
+
+.stars a.active{
+    opacity: 100%;
+}
+

@@ -1,0 +1,32 @@
+<!--Xrisimopoiw tin Jinja wste na ftiaxw ena base html page kai tha klironomeitai mesw twn extends apo tis upoloipes html pages -->
+
+{% extends 'base.html'%}
+
+<!-- einai to arxiko mou page HOME to opoio klironomei akribws opws einai to base mou 
+me tin diafora oti prosthetw to welcome kai kapoies plirofories gia to site-->
+
+{% block contentA%}
+
+
+
+
+<!-- xrisimopoiw kata kurio logo tis classes wste na einai pio eukolo na epeksergastw to style tou kathenos pio eukola-->
+<p class="welcome">
+    Welcome! 
+</p>
+
+<p class="logiaHomepage">
+    You can find lots of information about hospitals <br> by clicking "Greek Hospitals"
+    <br>
+    <br>
+    You can find the location of the hospital/hospitals <br> that you want to search by clicking "Search For Hospitals" 
+    <br>
+    <br>
+    You can find the location of the diagnostic centers <br> that you want to search by clicking "Search For Diagnostic Centers" 
+    <br>
+    <br>
+    You can rate the hospitals by clicking "Rate Hospitals"
+</p>
+
+
+{% endblock contentA%}

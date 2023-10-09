@@ -1,0 +1,305 @@
+<!--Xrisimopoiw tin Jinja wste na ftiaxw ena base html page kai tha klironomeitai mesw twn extends apo tis upoloipes html pages -->
+
+{% extends 'base.html'%}
+
+<!-- edw mesa sto block content gia ta head apo to base prosthetw tis katalliles vivliothikes pou tha xreiastw gia 
+tin ulopoisi tou xarti mou-->
+
+{% block contentCc%}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@3.2.12/dist/leaflet.css" />  -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" /> 
+
+
+{% endblock contentCc%}
+
+
+
+
+{% block contentC%}
+
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+   crossorigin=""></script>
+
+<!-- <script src="https://unpkg.com/leaflet@3.2.12/dist/leaflet.js"></script> -->
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script> 
+
+
+
+<!-- dimiourgw ena id gia to map mou wste na borw na to xrisimopoiisw kai na kanw anafores se auto-->
+<div id="map"></div>
+
+<!-- dimiourgia tou map kai tautoxrona dilwnw to pou tha estiazei molis fortwthei to page
+
+Exw valei san epikentro to Argos wste na mporei na fainetai ston meglutero vathmo o Elladikos xartis-->
+<script>
+    var map = L.map('map').setView([37.64353,22.72826], 6);
+
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+
+</script>
+
+<br>
+
+<!-- dimiourgia twn select plaisiwn mou mesw enos form gia na boresw na to xrisimopoihsw sta script tis javascript mou
+     mazi me tis epiloges pou pairnw apo tin database mou kai ta apeikonizw mesa sta options-->
+<form id="form">
+
+    <!-- kai pali mesw jinja gemizw ta select mou me options pou proerxontai apo tin vasi mou
+    mesw tou python arxeiou kai tou render_template-->
+
+    <select name="H_region" data-live-search="true" id="H_region" class="form-select" > 
+        <option hidden value="">Select Region</option>;
+        {% for reg in regions %}
+        <option name="H_region" value="{{reg.H_id}}">{{reg.H_region}}</option>
+        {% endfor %}
+    </select>
+    
+    <br>
+    
+    <select name="H_category" data-live-search="true" id="H_category" class="form-select"> 
+        <option hidden value="">Select Category</option>;
+        {% for cat in categories %}
+        <option value="{{cat.H_id}}">{{cat.H_category}}</option>
+        {% endfor %}
+    </select>
+    
+    <br>
+    
+
+    <select name="H_beds" data-live-search="true" id="H_beds" class="form-select"> 
+        <option hidden value="">Select Number of Beds</option>;
+        {% for bed in beds %}
+        <option value="{{bed.H_id}}">{{bed.H_beds}}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+
+    <!-- tautoxrona xrisimopoiw 2 koumpia to ena gia na mporw na aksiopoihsw ta dedomena mou apo ta select options 
+    kai to allo gia na kanw clear to map mou kai na sunexisw se epomeni anazhthsh-->
+
+    <!-- episis mesa ston button submit xrisimopoiw to onclick wste kathe fora pou pataw auto to koubi
+    na ekteleitai i methodos mou me to onoma select opou ekei ektelw tin oli diadikasia-->
+
+    <button class="button" type="submit" onclick="selects()">Search</button>
+
+    <!-- mesw tou clear button auto pou ginetai einai oti kanw reload tin selida-->
+    <button class="clear" id="clearButton" onclick="window.location.reload()" >Clear Map</button>
+
+</form>
+
+
+<!-- dimiourgw mia function se javascript mesw tis opoias antlw ta dedomena apo ta select options mou 
+    kai ta stelnw sto python arxeio mou-->
+<script>
+
+    function selects(){
+        var form = document.getElementById('form')
+
+        //apo tin stigmi pou uparxei i forma kai epilexthoun epiloges
+        if (form) {
+            //aksiopoiw to submit koubi mou kai proxwrw se parakatw energies
+            form.addEventListener('submit',function(event){
+            event.preventDefault()
+
+            //dilwnw se metavlites ta stoixeia pou epilegontai apo ta select options mou
+            //wste na borwsw na ta steilw stin python kai na kanw tis epeksergasies mou thelw
+            var region = document.getElementById('H_region');
+            var regionval = region.options[region.selectedIndex].text;
+            //console.log("The selected region=" + regionval);
+
+            var category = document.getElementById('H_category');
+            var categoryval = category.options[category.selectedIndex].text;
+            //console.log("The selected category=" + categoryval);
+
+
+            var beds = document.getElementById('H_beds');
+            var bedsval = beds.options[beds.selectedIndex].text;
+            //console.log("The selected beds=" + bedsval);
+
+
+            // se periptwsi pou den exei epilexthei kamia epilogi sta select plaisia kai patithei to submit 
+            //tote emfanizetai ena mhnuma oti den exei vrethei kanena nosokomeio me autes tis epiloges
+             if(regionval === 'Select Region' && categoryval==='Select Category' && bedsval === 'Select Number of Beds'){
+                 window.alert('There is no hospital with these imformation');
+                 window.location = 'thirdpage';
+
+             }
+
+            
+
+            
+            //vazw tis treis metavlites mou se ena dictionary gia na boresw na to ferw me JSON morfi wste mesw tis ajax na ta steilw stin python
+            const dict_values = {regionval,categoryval,bedsval}
+
+            
+            const lv = JSON.stringify(dict_values);
+            
+
+            $.ajax({
+                url:"/thirdpage",
+                type:"POST",
+                contentType:"application/json",
+                data:JSON.stringify(lv),
+                //akrivws meta tin diadikasia pou ekteleitai sto python arxeio vgazw kapoia alla dedomena ta opoia pernaw mesa sto dictionary3
+                //kai mesw tou stringify exw tin dinatothta na ta ferw ksana pisw
+                success:function(dictionary3){
+
+                    //pairnw pisw ta epeksergasmena dedomena mou apo tin python pou einai se json morfi kai ta topothetw se mia lista gia gia na einai praktiko
+                    //ta dedomena pou fernw pisw einai:
+                    //to onoma tou nosokomeiou
+                    //oi x kai y suntetagmenes
+                    //i dieuthinsi tou nosokomeiou
+                    //kai telos enas arithmos epikoinwnias
+                    
+                    var coordinates = [[]];
+                    for(var i in dictionary3){
+                        coordinates.push([dictionary3[i].hospital,dictionary3[i].y , dictionary3[i].x,dictionary3[i].address,dictionary3[i].phone])
+                        
+                        
+                    };
+
+                    //edw krataw tis suntetagmenes apo tin topothesia mou ekeini tin stigmi opou vriskomai
+                    //kai tis apothikeuw se lat kai long gia na boresw na tis xrisimopoihsw argotera
+                    var lat = 39.617360632657714;
+                    var long = 20.839771204864654;
+
+                        
+                        
+                        //dimiourgw ena icon gia na to valw na apeikonizetai ston xarti ws tin dikia mou topothesia
+
+                        var myIcon = L.icon({
+                            iconUrl : '/static/images/pineza3.png',
+                            iconSize: [32,37],
+                            iconAnchor: [16,37],
+                            popupAnchor: [0,-30]
+                        });
+
+                        var greenIcon = L.icon({
+                            iconUrl : '/static/images/greenIcon.ico',
+                            iconSize: [44,46],
+                            iconAnchor: [22,42],
+                            popupAnchor: [0,-30]
+                        });
+
+                        
+
+                        
+                        
+
+                        //dimiourgw ena akoma marker to opoio dilwnei tin dikia mou topothesia sumfwna me tis suntetagmenes pou pira pio panw
+
+                        // var testMarker = L.marker([lat, long],{icon:myIcon}).addTo(map).bindPopup("My Location");
+                        var arrayForLine = []
+
+                        //mesw mias for loop diatrexw tin lista mou kai apeikonizw ston xarti ta simadia simfwna me tis suntetagmenes pou 
+                        //exw parei apo to python arxeio pou proerxontai apo tin vasi mou
+                        //episis exw valei se kathe simadaki ston xarti otan to clickarw na emfanizetai ena parathuraki(popup) to opoio exei mia mikri
+                        //pliroforia kai sugkekrimena to onoma tou sugkekrimenou nosokomeiou,tin dieuthinsi kai enan arithmo epikoinwnias
+                        for(i=1;i<coordinates.length;i++){
+                            var marker = L.marker([coordinates[i][1],coordinates[i][2]]);
+                            marker.addTo(map);
+                            var popup = marker.bindPopup(String(coordinates[i][0]) + "<br> Address: " +String(coordinates[i][3]) + "<br>Phone: " + String(coordinates[i][4]));
+                            popup.addTo(map);
+                            
+                            //ektelw tin praksi apostasi metaksu duo simiwn kathe fora wste na boresw na vrw poio nosokomeio vrisketai pio konta apo tin dikia mou topothesia
+
+                            var k = Math.sqrt((Math.pow(coordinates[i][1]-lat,2) + Math.pow(coordinates[i][2]-long,2)) );
+
+                            //thetw iso me min tin prwti praksi tou prwtou simeiou pou vriskw stin lista
+                            if(i ===1){
+                                var min = k;
+                                var cord = [coordinates[i][1],coordinates[i][2]]
+                                
+                            }
+
+                            //kai se periptwsi pou to epomeno stoixeio einai mikrotero apo ti min mou tote krataw auto to apotelesma tis praksis kai tis suntetagmenes tou simeiou autou
+                            if(k <= min){
+                                min = k;
+                                var cord = [coordinates[i][1],coordinates[i][2]]
+                                var destinationPopup = String(coordinates[i][0]) + "<br> Address: " +String(coordinates[i][3]) + "<br>Phone: " + String(coordinates[i][4]);
+                                
+                            }
+                            
+
+                            
+
+
+                        };
+
+                        //dimiourgw mia akoma lista tin opoia xrisimopoiw gia na prosthesw mesa tis suntetagmenes tou dikou mou simeiou 
+                        //kathws kai tis suntetagmenes tou kontinoterou simeiou 
+                        arrayForLine.push([lat, long]);
+                        arrayForLine.push(cord);
+
+                        
+                        //xrisimopoiwntas mia vivliothiki gia to routing exontas vrei poio einai too kontinotero
+                        //nosokomeio apeikonizw tin diadromi metaksu tis topothesias mou kai tou nosokomeiou
+                        //pou thelw kathws kai ena pinakaki me leptomeries gia tin poreia tis diadromis
+
+                         var routing = L.Routing.control({
+                             waypoints: [
+                                 L.latLng(arrayForLine[0][0],arrayForLine[0][1]),
+                                 L.latLng(arrayForLine[1][0],arrayForLine[1][1])
+                             ],
+                             createMarker: function(i,wp,nwps){
+                                 if(i ===0){
+                                    return L.marker(wp.latLng, {icon:myIcon}).bindPopup("My Location");
+                                 }
+                                 else{
+                                     return L.marker(wp.latLng,{icon:greenIcon}).bindPopup(destinationPopup);
+                                 }
+                             }
+                        }).addTo(map);
+                    
+
+                    
+                        
+
+                        
+
+
+                        
+                    
+                    
+                    
+
+                    
+                    
+    }                                        
+            })
+
+
+            })
+        }
+
+    }
+
+
+
+</script>
+
+
+
+
+
+<br>
+<br>
+
+<!-- kleinw to block content mou -->
+
+{% endblock contentC%}

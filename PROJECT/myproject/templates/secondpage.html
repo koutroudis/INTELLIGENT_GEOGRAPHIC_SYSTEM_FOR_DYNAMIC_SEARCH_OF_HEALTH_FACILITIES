@@ -1,0 +1,41 @@
+<!--Xrisimopoiw tin Jinja wste na ftiaxw ena base html page kai tha klironomeitai mesw twn extends apo tis upoloipes html pages -->
+
+{% extends 'base.html'%}
+
+<!-- dimiourgw ena table sto opoio prosthetw sxedon ola ta dedomena mou apo tin vasi wste na uparxoun 
+oi plirofories mou mazemenes kai na dieukolunomai wste na kanw tis epiloges sta select mou 
+
+Pio sugkekrimena oi epiloges autes einai enas arithmos pou auxanetai san prwto column 
+kai apo ekei kai pera To onoma tou nosokomeiou,H perioxi tou,i katigoria pou vrisketai kai o arithmos twn klinwn(krevatiwn)-->
+
+{% block contentB%}
+
+
+<table class="table">
+  <!-- ftiaxnw to table mou me ta headers-->
+    <thead>
+      <tr class="columns">
+        <th scope="col">Hospitals</th>
+        <th scope="col">Name</th>
+        <th scope="col">Region</th>
+        <th scope="col">Category</th>
+        <th scope="col">Beds</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- mesw jinja gemizw ta columns tou pinaka mou me tis plirofories tis vasis mou pou exw steilei 
+      apo to arxeio tis python mesw render_template-->
+    {% for wt in wantedTable%}
+    <tr>
+            <th class="numeric" scope="row">{{wt['H_id']}}</th>
+            <td>{{wt['H_name']}}</td>
+            <td>{{wt['H_region']}}</td>
+            <td>{{wt['H_category']}}</td>
+            <td>{{wt['H_beds']}}</td>
+        
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock contentB%}

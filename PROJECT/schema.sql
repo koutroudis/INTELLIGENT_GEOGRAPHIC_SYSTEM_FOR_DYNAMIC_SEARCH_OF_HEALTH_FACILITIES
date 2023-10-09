@@ -1,0 +1,31 @@
+CREATE TABLE IF NOT EXISTS Data(
+    H_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    H_name STRING NOT NULL,
+    H_region STRING NOT NULL,
+    H_category STRING NOT NULL,
+    H_beds STRING NOT NULL,
+    H_yaxis FLOAT NOT NULL,
+    H_xaxis FLOAT NOT NULL,
+    H_address STRING NOT NULL,
+    H_phone STRING NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS RatingData(
+    R_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    R_H_yaxis FLOAT NOT NULL,
+    R_H_xaxis FLOAT NOT NULL,
+    R_rating INTEGER NOT NULL,
+    R_comments VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ScrapData(
+    S_name STRING NOT NULL,
+    S_address STRING NOT NULL,
+    S_locality STRING NOT NULL,
+    S_region STRING NOT NULL,
+    S_activities STRING NOT NULL,
+    S_yaxis FLOAT NOT NULL,
+    S_xaxis FLOAT NOT NULL,
+    S_phone STRING NOT NULL PRIMARY KEY,
+    S_website STRING NOT NULL
+);

@@ -1,0 +1,332 @@
+{% extends 'base.html'%}
+
+
+
+<!-- edw mesa sto block content gia ta head apo to base prosthetw tis katalliles vivliothikes pou tha xreiastw gia 
+tin ulopoisi tou xarti mou-->
+
+{% block contentDd%}
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+
+
+
+
+
+{% endblock contentDd%}
+
+
+
+
+
+{% block contentD%}
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+   crossorigin=""></script>
+
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+
+   
+   <div id="map"></div>
+
+   <!-- xrisimipoiw mia form wste na dimiourgisw 1 select option stin selida mou me 
+   dedomena apo tin vasi mou-->
+   <form id="ratingForm" class="ratingForm">
+   
+      
+      <select name="H_region" data-live-search="true" id="H_region" class="form-select" > 
+          <option hidden value="">Select Hospital's Region For Rating</option>;
+          {% for reg in regions %}
+          <option name="H_region" value="{{reg.H_id}}">{{reg.H_region}}</option>
+          {% endfor %}
+      </select>
+      <br>
+   
+   
+     
+   
+      <button class="button" type="submit" onclick="selectRating()">Search</button>
+   
+     
+      <button class="clear" id="clearButton" onclick="window.location.reload()" >Clear Map</button>
+   
+   </form>
+
+   <!-- dimiourgw 2 wrappers (parathira) ta opoia xrisimopoiw gia na kanw to rating mou
+   to 1o einai gia na ginei to rating kai to 2o wste na emfanisw to apotelesma
+   dhladh ton meso oro asteriwn tou kathe nosokomeiou kathws kai to teleutaio sxolio
+   pou kataxwrithike gia auto to nosokomeio-->
+
+   <div class="wrapper2" id="wrapper2">
+      <h2>Thanks For Rating</h2>
+      <div class="content">
+         <div class="container">
+            <label id="counting">count</label>
+             <div class="stars2">
+                 <a>⭐</a>
+                 <a>⭐</a>
+                 <a>⭐</a>
+                 <a>⭐</a>
+                 <a>⭐</a>
+                 <label id="label">kati</label>
+                 
+
+            </div>
+            <label id="recent">Most Recent Comment</label>
+            <br>
+            <textarea id="recentComment" rows="3">comment</textarea>
+            
+
+            <form class="thanks" id="thanks">
+               <button class="close" id="close" onclick="window.location.reload()">Close</button>
+            </form>
+
+         </div>
+      </div>
+   </div>
+
+   <div id="wrapper" class="wrapper">
+      <h2>Rate this Hospital</h2>
+      <h5>What's your experience about this hospital?</h5>
+      <div class="content">
+         <div class="container">
+              <div class="stars">
+                  <a>⭐</a>
+                  <a>⭐</a>
+                  <a>⭐</a>
+                  <a>⭐</a>
+                  <a>⭐</a>
+              </div>
+              
+              
+              <form id="ratingForm2" class="ratingForm2">
+                  
+                  
+                  <br>
+                  <br>
+                  <label>Comments</label>
+                  <br>
+                  <textarea id="comments" class="comments" placeholder="Comment here"></textarea>
+                  <br>
+                  <button type="submit" class="save" id="submit">Save your rating</button>
+              </form>
+          </div>
+      </div>
+  
+   </div>
+
+
+<!-- xrisimopoiw 4 functions me skopo na kalw kathe fora na emfanizetai stin selida mou
+to antistoixo wrapper pou thelw kai gia na boresw na thesw ena xroniko timeout metaksu tous-->
+
+<script>
+   function show1(){
+      var wrapper = document.getElementById('wrapper');
+      wrapper.style.display = 'block';
+   }
+
+   function hide1(){
+      document.getElementById('wrapper').style.display = 'none';
+   }
+
+   function show2(){
+      var wrapper2 = document.getElementById('wrapper2');
+      wrapper2.style.display = 'block';
+   }
+
+   function hide2(){
+      document.getElementById('wrapper2').style.display = 'block';
+   }
+
+</script>
+
+
+
+
+<script>
+   var map = L.map('map').setView([37.64353,22.72826], 6);
+
+   var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+   });
+   osm.addTo(map);
+
+
+</script>
+
+
+<script>
+   
+   function selectRating(){
+
+      
+      
+      var form = document.getElementById('ratingForm');
+
+      if(form){
+         
+         form.addEventListener('submit',function(event){
+         event.preventDefault()
+
+         var region = document.getElementById('H_region');   
+         var regionval = region.options[region.selectedIndex].text;
+
+         if(regionval === "Select Hospital's Region For Rating"){
+                 window.alert('Select a Region');
+                 window.location = 'fourthpage';
+
+         }
+         const region_value = {regionval}
+         const lv = JSON.stringify(region_value);
+         
+
+         $.ajax({
+                url:"/fourthpage",
+                type:"POST",
+                contentType:"application/json",
+                data:JSON.stringify(lv),
+                success:function(dictionary3){
+
+                  //pairnw pisw ta epeksergasmena dedomena mou apo tin python pou einai se json morfi kai ta topothetw se mia lista gia gia na einai praktiko
+                  //ta dedomena pou fernw pisw einai:
+                  //to onoma tou nosokomeiou
+                  //oi x kai y suntetagmenes
+                  //i dieuthinsi tou nosokomeiou
+                  //kai telos enas arithmos epikoinwnias
+
+                  var coordinates = [[]];
+                  //var content = [];
+                  for(var i in dictionary3){
+                     coordinates.push([dictionary3[i].hospital,dictionary3[i].y , dictionary3[i].x,dictionary3[i].address,dictionary3[i].phone])
+                     
+                     
+                  };
+
+                  for(i=1;i<coordinates.length;i++){
+                     var marker = L.marker([coordinates[i][1],coordinates[i][2]]);
+                     marker.addTo(map);
+                     var popup = marker.bindPopup(String(coordinates[i][0]) + "<br> Address: " +String(coordinates[i][3]) + "<br>Phone: " + String(coordinates[i][4]));
+                     
+                     
+                     // kathes kanw click panw ston marker pou thelw na kanw tin kritiki mou
+                     //emfanizetai to prwto wrapper sto opoio kanw kai tin kritiki
+
+                     var markerCoords = {}
+                     marker.on('click',function(e){
+                        var latlng = marker.getLatLng();
+                        var markerLat = latlng.lat;
+                        var markerLng = latlng.lng;
+                        
+                        const markerCoords= {markerLat,markerLng};
+                        const torating = {regionval,markerLat,markerLng};
+                        
+                        show1();
+                        // var wrapper = document.getElementById('wrapper');
+                        // wrapper.style.display = 'block';
+
+                        const allStars = document.querySelectorAll('.stars a');
+                        var currentStar;
+                        var form2 = document.getElementById('ratingForm2');
+
+                        //argotera otan kanw click panw sto asteri pou thelw wste na kanw tin kritiki
+                        //krataw ton arithmo twn asteriwn pou ekana rate
+                        //kai sunexizw sto kommati twn comments
+                        
+                        allStars.forEach((star,i) =>{
+                           star.addEventListener('click' , function(event){
+                              currentStar = i+1;
+                              allStars.forEach((star,j) =>{
+                                 if(j +1 <= currentStar){
+                                    star.style.opacity = 100;
+                                 }
+                              })
+                              
+                                 
+                                 
+
+                                 //molis sumplirwsw kai to textarea mou me ta comments kai kanw submit
+                                 //eksafanizetai to 1o wrapper kai meta apo ena xroniko timeout emfanizetai
+                                 //to 2o wrapper sto opoio apeikonizetai to apotelesma tou mesou orou
+                                 //asteriwn gia to sugkekrimeno nosokomeio sumfwna me tin vasi 
+                                 //kathws kai to teleutaio sxolio pou kataxwrithike
+
+                                 
+
+                                 if(form2){
+                                    form2.addEventListener('submit', function(event){
+                                       event.preventDefault();
+                                       var txt = document.getElementById('comments').value;
+                                       const datas = {currentStar,txt,regionval,markerLat,markerLng}
+                                       const dataa = JSON.stringify(datas);
+                                       
+                                       $.ajax({
+                                          url:"/ratingpage",
+                                          type:"POST",
+                                          contentType:"application/json",
+                                          data:JSON.stringify(dataa),
+                                          success:function(dict1){
+                                             
+                                             var recentcomment = 'Message: ' + dict1.comment;
+                                             var countings = 'From ' + dict1.count + ' ratings:';
+                                             var text = '(' + dict1.avg.toPrecision(2) + ')';
+                                             setTimeout("hide1()" , 200);
+                                             setTimeout("show2()" , 500);
+                                             var label = document.getElementById('label');
+                                             label.innerHTML = text;
+                                             var label2 = document.getElementById('counting');
+                                             label2.innerHTML = countings;
+                                             var label3 = document.getElementById('recentComment');
+                                             label3.innerHTML = recentcomment;
+                                             
+                                             
+                                             
+
+                                          }
+                                       })
+                                             
+                                       
+                                    })
+                                 }
+                                 
+
+
+
+            
+        
+                           })
+                        })
+                        
+                        
+                     });
+                    
+
+                  }
+
+                  
+
+                     
+                  
+
+                  
+                  
+                  
+                  
+               }  
+         })
+         })
+      }
+   }
+</script>
+
+{% endblock contentD%}
