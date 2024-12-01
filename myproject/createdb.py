@@ -18,7 +18,6 @@ def create():
     conn = connection.cursor()
 
 
-    #print('my database created')
 
     #open csv for reading only
     file = open('bookFinal.csv','r')
@@ -70,13 +69,6 @@ def create():
 
    
 
-    #print(rows)  
-
-
-
-
-    #for r in ratingRows:
-    #   print(r)
 
     connection.commit()
 
